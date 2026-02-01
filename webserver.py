@@ -24,7 +24,7 @@ class Application:
         self.db = ClickHouseManager(
             parent=self,
             host=os.getenv("DB_HOST"),
-            port=int(os.getenv("DB_PORT", 8123)),
+            port=int(os.getenv("DB_PORT")),
             username=os.getenv("DB_USERNAME"),
             password=os.getenv("DB_PASSWORD"),
             database=os.getenv("DB_DATABASE"),

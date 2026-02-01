@@ -29,11 +29,11 @@ class Ingester:
     async def setup(self):
         self.db = ClickHouseManager(
             parent=self,
-            host=os.getenv("DB_HOST", None),
-            port=int(os.getenv("DB_PORT", None)),
-            username=os.getenv("DB_USERNAME", None),
-            password=os.getenv("DB_PASSWORD", None),
-            database=os.getenv("DB_DATABASE", None),
+            host=os.getenv("DB_HOST"),
+            port=int(os.getenv("DB_PORT")),
+            username=os.getenv("DB_USERNAME"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_DATABASE"),
         )
         await self.db.create_tables()
         self.session = aiohttp.ClientSession(headers=HEADERS)
