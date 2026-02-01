@@ -1,0 +1,321 @@
+@import url("/static/css/root.css");
+
+
+.dt-container {
+    background: var(--bg-panel);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow-x: scroll;
+}
+
+/* --- LOGICA DE ORDENAÇÃO CORRIGIDA --- */
+
+/* 1. Força a célula a ser um container flex */
+table.dataTable thead th {
+    background-color: var(--bg-card) !important;
+    color: var(--primary) !important;
+    border-bottom: 2px solid var(--border) !important;
+    padding: 12px !important;
+}
+
+table.dataTable thead th>div.dt-column-header {
+    display: flex !important;
+    flex-direction: row !important;
+    /* Força linha */
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100%;
+}
+
+/* Hover nas linhas da tabela */
+table.dataTable tbody tr:hover {
+  background-color: rgba(0, 180, 255, 0.10) !important;
+  transition: background-color 0.15s ease-in-out;
+}
+
+/* Garante que o hover funcione mesmo com cell-border */
+table.dataTable tbody tr:hover > td {
+  background-color: transparent !important;
+}
+
+
+/* 2. O Título (Texto) deve ser o primeiro */
+.dt-column-title {
+    order: 1 !important;
+    margin-right: auto;
+    flex-grow: unset !important;
+    /* Empurra o resto para a direita */
+}
+
+/* 3. O container do ColumnControl deve ser o segundo */
+.dtcc {
+    order: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px;
+}
+
+/* Estiliza o select do pageLength */
+.dt-length select {
+    background-color: var(--bg-dark) !important;
+    color: var(--primary) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 4px;
+    padding: 2px 5px;
+    margin: 0 5px; /* Espaço entre o "Show" e o número */
+}
+
+/* Garante que o texto "Show" herde a cor correta */
+.dt-length label {
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+/* --- ESTILOS DOS BOTÕES E INPUTS (ORIGINAL) --- */
+.dt-column-order {
+    display: none !important;
+}
+
+.dtcc-order {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    order: 1;
+    /* Dentro do container dtcc, o ícone vem antes do input */
+}
+
+.dtcc-search {
+    order: 2;
+    /* Dentro do container dtcc, o input vem por último */
+}
+
+.dtcc-search input {
+    background: var(--bg-dark) !important;
+    border: 1px solid var(--border) !important;
+    color: white !important;
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 11px;
+    width: 60px;
+    /* Largura menor para não quebrar */
+}
+
+.dt-search input {
+    background: var(--bg-dark);
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.dtcc-button-icon, .dtcc-search-type-icon svg, .dtcc-search-icon svg, .dtcc-button-state svg, .dtcc-button-extra svg{
+    color: var(--blue) !important;
+}
+
+select {
+    background: var(--bg-dark) !important;
+    color: var(--text-main)
+}
+
+/* Estiliza as Opções (o menu que abre) */
+select option {
+    background-color: var(--bg-dark) !important;
+    color: var(--text-main) !important;
+}
+
+/* No Chrome, às vezes o hover nas opções usa a cor do sistema.
+   Isso ajuda a manter o contraste: */
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-select {
+    margin: 5px;
+    width: calc(100% - 10px);
+}
+
+.dtcc-dropdown {
+    background: var(--bg-dark) !important;
+}
+
+.dtcc-button-text {
+    color: var(--text-main) !important;
+}
+
+.dt-button-collection {
+    position: fixed !important;
+    inset: 0 !important;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.55) !important;
+    z-index: 9999;
+}
+
+.dt-button-collection>div {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    padding: 16px;
+    width: min(420px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 80px);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+
+    animation: colvis-modal-in 0.18s ease-out;
+}
+
+.dt-button-collection .dt-button {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px;
+
+    padding: 10px 12px;
+    font-size: 13px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    white-space: normal;
+    /* evita estourar largura */
+}
+
+@keyframes colvis-modal-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Flash sutil quando a linha é atualizada */
+.row-updated {
+    animation: row-flash 0.7s ease-out;
+}
+
+@keyframes row-flash {
+    from {
+        background-color: rgba(0, 255, 120, 0.18);
+    }
+
+    to {
+        background-color: transparent;
+    }
+}
+
+.item-link {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.item-link:hover {
+    text-decoration: underline;
+}
+
+
+/* Container da tabela para permitir scroll lateral */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+}
+
+/* Fixar Coluna 1 (Ícone) */
+#alchemyTable th.cell-sticky-icon,
+#alchemyTable td.cell-sticky-icon {
+    /* position: sticky !important; */
+    left: 0;
+    z-index: 10;
+    background-color: var(--bg-panel) !important;
+    border-right: 1px solid var(--border) !important;
+}
+
+/* Fixar Coluna 2 (Item Name) */
+#alchemyTable th.cell-sticky-name,
+#alchemyTable td.cell-sticky-name {
+    /* position: sticky !important; */
+    left: 45px; /* Largura da coluna do ícone */
+    z-index: 10;
+    /* background-color: var(--bg-panel) !important; */
+    /* border-right: 2px solid var(--primary) !important; */
+    text-align: center;
+}
+
+/* Garante que o header das colunas fixas fique por cima do scroll */
+#alchemyTable thead th.cell-sticky-icon,
+#alchemyTable thead th.cell-sticky-name {
+    z-index: 11;
+}
+
+/* Ajuste no ícone para não esticar */
+.item-icon-render {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 30px;
+    height: auto;
+    max-height: 30px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+
+
+th.cell-sticky-icon .dtcc {
+    display: none !important;
+}
+
+th.cell-sticky-icon .dt-column-order {
+    display: none !important;
+}
+
+th.cell-sticky-icon .dt-column-header {
+    justify-content: center !important;
+    text-align: center;
+}
+
+/* Container que envolve o dropdown no topo da tabela */
+.members-filter-wrapper {
+    display: inline-block;
+    margin-left: 1rem;
+    vertical-align: middle;
+}
+
+/* O dropdown em si */
+.members-dropdown {
+    width: 180px;
+    display: inline-block;
+    cursor: pointer;
+    border-color: var(--bs-border-color); /* Ou a cor da sua borda */
+}
+
+/* Ajuste opcional para dispositivos móveis */
+@media (max-width: 576px) {
+    .members-filter-wrapper {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        display: block;
+    }
+    .members-dropdown {
+        width: 100%;
+    }
+}

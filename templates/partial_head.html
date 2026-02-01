@@ -1,0 +1,6 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% if analytics_url and analytics_uuid %}
+    <script defer src="{{ analytics_url }}" data-website-id="{{ analytics_uuid }}"></script>
+{% endif %}

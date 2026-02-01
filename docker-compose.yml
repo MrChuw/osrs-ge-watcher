@@ -1,0 +1,64 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse-server-osrs
+    ports:
+      - "14133:8123"
+      - "14134:9000"
+    env_file:
+      - .env
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - ./data/clickhouse_data:/var/lib/clickhouse
+      - ./data/z_log_queries.xml:/etc/clickhouse-server/users.d/z_log_queries.xml
+      - ./data/z_clickhouse.xml:/etc/clickhouse-server/config.d/z_system-logs-ttl.xml
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "localhost:8123/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  ingester:
+    image: python:3.13.1-slim
+    container_name: ingester-osrs
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+      - pip_cache:/root/.cache/pip
+    working_dir: /app
+    env_file:
+      - .env
+    command: >
+      sh -c "pip install -r requirements.txt && python ingester.py"
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    restart: unless-stopped
+
+  webserver:
+    image: python:3.13.1-slim
+    container_name: webserver-osrs
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+      - pip_cache:/root/.cache/pip
+    working_dir: /app
+    ports:
+      - "${HOST_BIND:-0.0.0.0}:${HOST_PORT:-25000}:${CONTAINER_PORT}"
+    env_file:
+      - .env
+    command: >
+      sh -c "pip install -r requirements.txt && python webserver.py"
+    # depends_on:
+    #   clickhouse:
+    #     condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pip_cache:

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    {% include 'partial_head.html' %}
+    <title>Alchemy Live - OSRS</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/columncontrol/1.2.0/css/columnControl.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.6.3/css/dataTables.dateTime.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/items.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OSRS Alchemy <span style="color: var(--primary);">Tracker</span></h1>
+        </header>
+
+        <div class="table-wrapper">
+            <table id="alchemyTable" class="display nowrap cell-border" style="width:100%">
+            <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Icon</th>
+                        <th>Item</th>
+                        <!-- <th>Members</th> -->
+                        <th>Buy Limit</th>
+
+                        <th>High Alch</th>
+                        <th>Low Alch</th>
+                        <th>Nature Rune</th>
+
+                        <th>Instant Buy Price</th>
+                        <th>Slow Buy Price</th>
+                        <th>Selling Volume</th>
+
+                        <th>Profit / High Alch (Instant)</th>
+                        <th>Profit / High Alch (Slow)</th>
+                        <th>Hourly Profit (High)</th>
+                        <th>Real Hourly Profit (High)</th>
+
+                        <th>Total Profit (Instant)</th>
+                        <th>Total Profit (Slow)</th>
+
+                        <th>Profit / Low Alch (Instant)</th>
+                        <th>Profit / Low Alch (Slow)</th>
+                        <th>Hourly Profit (Low)</th>
+                        <th>Real Hourly Profit (Low)</th>
+
+                        <th>Total Profit Low (Instant)</th>
+                        <th>Total Profit Low (Slow)</th>
+
+                        <th>ROI High (%)</th>
+                        <th>ROI Low (%)</th>
+
+                        <th>Cost Buy (Instant)</th>
+                        <th>Cost Buy (Slow)</th>
+                        <th>Hours to Process Limit</th>
+
+                        <th>Updated At</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/columncontrol/1.2.0/js/dataTables.columnControl.js"></script>
+    <script src="https://cdn.datatables.net/columncontrol/1.2.0/js/columnControl.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.colVis.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.6.3/js/dataTables.dateTime.min.js"></script>
+    <script src="{{ url_for('static', path='/js/alchemy.js') }}"></script>
+</body>
+</html>

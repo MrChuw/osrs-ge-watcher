@@ -1,0 +1,59 @@
+[project]
+name = "osrs-ge-watcher"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.13.1"
+
+dependencies = [
+    "aiohttp>=3.13.3",
+    "clickhouse-connect>=0.10.0",
+    "fastapi[standard]>=0.128.0",
+    "loguru>=0.7.3",
+    "minify-html>=0.18.1",
+    "python-dotenv>=1.2.1",
+    "rcssmin>=1.2.2",
+    "rjsmin>=1.2.5",
+    "sse-starlette>=3.2.0",
+    "uvicorn[standard]>=0.40.0",
+    "starlette>=0.50.0",
+]
+
+[dependency-groups]
+dev = [
+    "deptry>=0.24.0",
+    "pre-commit>=4.5.1",
+    "ruff>=0.14.14",
+]
+
+[tool.deptry.per_rule_ignores]
+DEP002 = ["sse-starlette"]
+
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+exclude = [
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".tox",
+    ".venv",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "static",
+    "templates",
+    "data/clickhouse_data"
+]
+
+[tool.ruff.lint]
+ignore = ["E203", "RUF100", "UP047", "B023"]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "ISC", "TID", "RUF", "SIM", "N", "PERF"]
+
+[tool.ruff.format]
+quote-style = "preserve"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

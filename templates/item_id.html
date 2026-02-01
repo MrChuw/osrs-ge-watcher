@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<head>
+    {% include 'partial_head.html' with context %}
+    <title>Price OSRS</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/item_id.css') }}">
+    <link id="favicon" rel="icon" type="image/x-icon" href="">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 id="itemName">
+                <img id="itemIcon" src="">
+                <span id="nameText">Loading...</span>
+            </h1>
+            <div class="stat-header">
+                <div class="stat-box">
+                    <div class="stat-label">Sell:</div>
+                    <div class="price-card text-green" id="currentSellPriceDisplay">---</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Buy:</div>
+                    <div class="price-card text-red" id="currentBuyPriceDisplay">---</div>
+                </div>
+            </div>
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-label">
+                        Profit
+                        <span class="info-icon">
+                            <img id="alchemy_Icon" src="https://oldschool.runescape.wiki/images/High_Level_Alchemy.png">
+                            <span class="tooltip-box">
+                                <div class="tooltip-header">Alchemy Values</div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">
+                                        <img class="tooltip-icon"
+                                            src="https://oldschool.runescape.wiki/images/High_Level_Alchemy.png"> High
+                                        Alch:
+                                    </span>
+                                    <span id="statHighTooltip" class="tooltip-value">-</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">
+                                        <img class="tooltip-icon"
+                                            src="https://oldschool.runescape.wiki/images/Low_Level_Alchemy.png"> Low
+                                        Alch:
+                                    </span>
+                                    <span id="statLowTooltip" class="tooltip-value">-</span>
+                                </div>
+                            </span>
+                        </span>
+                    </div>
+                    <div id="Profit">-</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">
+                        Margin
+                        <span class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                                <path
+                                    d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 22 14 A 3 3 0 0 0 25 17 A 3 3 0 0 0 28 14 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 22 23 L 23 23 L 23 36 L 22 36 L 21 36 L 21 38 L 22 38 L 23 38 L 27 38 L 28 38 L 29 38 L 29 36 L 28 36 L 27 36 L 27 21 L 26 21 L 22 21 L 21 21 z">
+                                </path>
+                            </svg>
+                            <span class="tooltip-box">
+                                <div class="tooltip-header">GE Flip (After Tax)</div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">GE Tax:</span>
+                                    <span id="Tax" class="tooltip-value">0 gp</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Total Profit:</span>
+                                    <span id="tooltipGEProfit" class="tooltip-value">-</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">ROI:</span>
+                                    <span id="tooltipGEROI" class="tooltip-value">-</span>
+                                </div>
+                            </span>
+                        </span>
+                    </div>
+                    <div id="Margin">-</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">24-hour average</div>
+                    <div id="statAvg">-</div>
+                </div>
+
+            </div>
+            <div class="details-dropdown">
+                <button class="dropdown-trigger" onclick="this.parentElement.classList.toggle('open')">
+                    Additional Information
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="dropdown-content-wrapper">
+                    <div class="dropdown-inner-content">
+                        <div class="stat-grid dropdown-grid">
+                            <div class="stat-box">
+                                <div class="stat-label">Buy Limit</div>
+                                <div id="statLimit">-</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">
+                                    Store Value
+                                    <span class="info-icon" id="storeFlipContainer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                                            <path
+                                                d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 22 14 A 3 3 0 0 0 25 17 A 3 3 0 0 0 28 14 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 22 23 L 23 23 L 23 36 L 22 36 L 21 36 L 21 38 L 22 38 L 23 38 L 27 38 L 28 38 L 29 38 L 29 36 L 28 36 L 27 36 L 27 21 L 26 21 L 22 21 L 21 21 z">
+                                            </path>
+                                        </svg>
+                                        <span class="tooltip-box">
+                                            <div class="tooltip-header">Store Flip</div>
+                                            <div class="tooltip-row">
+                                                <span class="tooltip-label">Profit/Item</span>
+                                                <span id="tooltipProfitItem" class="tooltip-value">-</span>
+                                            </div>
+                                            <div class="tooltip-row">
+                                                <span class="tooltip-label">Total Profit</span>
+                                                <span id="tooltipTotalProfit" class="tooltip-value">-</span>
+                                            </div>
+                                            <div class="tooltip-row">
+                                                <span class="tooltip-label">ROI</span>
+                                                <span id="tooltipROI" class="tooltip-value">-</span>
+                                            </div>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div id="statValue">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="controls">
+            <div class="presets">
+                <button id="btn-live" onclick="changeMode('live', this)" class="active">Live</button>
+                <button onclick="changeMode('1d', this)">1d</button>
+                <button onclick="changeMode('1w', this)">1w</button>
+                <button onclick="changeMode('1mo', this)">1m</button>
+                <button onclick="changeMode('1y', this)">1y</button>
+                <button onclick="changeMode('all', this)">All</button>
+            </div>
+            <div>
+                <input type="date" id="dateFilter">
+                <button onclick="fetchByDate()" id="btn-filter">Filtrar</button>
+            </div>
+        </div>
+
+        <div id="chart-container"></div>
+    </div>
+
+    <script>
+        const ITEM_ID = "{{ item_id }}";
+    </script>
+    <script src="{{ url_for('static', path='/js/item_id.js') }}"></script>
+</body>
+
+</html>
