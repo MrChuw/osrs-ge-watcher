@@ -2,9 +2,9 @@ services:
   clickhouse:
     image: clickhouse/clickhouse-server:latest
     container_name: clickhouse-server-osrs
-    ports:
-      - "14133:8123"
-      - "14134:9000"
+    # ports:
+    #   - "14133:8123"
+    #   - "14134:9000"
     environment:
       CLICKHOUSE_DB: ${DB_DATABASE}
       CLICKHOUSE_USER: ${DB_USERNAME}

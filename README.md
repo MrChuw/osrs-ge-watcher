@@ -3,7 +3,7 @@
 This project was developed as a self-hosted alternative to existing online tools, avoiding reliance on third-party platforms and subscriptions. It is designed for personal use rather than as a public-facing service.
 
 ## Live Demo
-A live demonstration is available at [osrs-ge](https://osrs-ge.mrchuw.com.br). 
+A live demonstration is available at [alchemy](https://osrs-ge.mrchuw.com.br/alchemy) or [items](https://osrs-ge.mrchuw.com.br/items). I still need to make the main page. 
 
 > **Note:** The demo version includes a significant delay between WebSocket updates and uses [Umami](https://github.com/umami-software/umami) for basic analytics.
 
